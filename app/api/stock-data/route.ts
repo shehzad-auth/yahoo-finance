@@ -17,6 +17,16 @@ interface ProgressUpdate {
   error?: string;
 }
 
+interface HistoricalDataItem {
+    date: Date;
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+    volume: number;
+    adjClose?: number | undefined;
+  }
+
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export async function POST(req: Request) {
@@ -57,7 +67,7 @@ export async function POST(req: Request) {
             }
 
             const result = await yahooFinance.historical(symbol, queryOptions);
-            const resultWithSymbol = result.map((item: any) => ({
+            const resultWithSymbol = result.map((item: HistoricalDataItem) => ({
               ...item,
               symbol
             }));
